@@ -1,8 +1,25 @@
 const express = require('express');
+
+// security
+require('dotenv').config()
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
+
 const app = express();
 
-const mysql = require('mysql');
-const { Sequelize } = require('sequelize');
+const path = require('path');
+const userRoutes = require('./routes/user.js');
+// const sauceRoutes = require('./routes/sauce.js');
+
+
+// HELMET
+app.use(helmet());
+
+// RATE LIMITER
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // limit each IP to 100 requests per windowMs
+});
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -11,25 +28,17 @@ app.use((req, res, next) => {
   next();
 });
 
+// RATE LIMITER
+app.use(limiter);
+
 app.use(express.json());
+app.use('/images', express.static(path.join(__dirname, 'images')));
+// app.use('/api/sauces', sauceRoutes);
+app.use('/api/auth', userRoutes);
 
-
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: ""
-});
-
-const sequelize = new Sequelize("nom_base_de_donnees", "root", "", {
-  dialect: "mysql",
-  host: "localhost"
-});
-try {
-  sequelize.authenticate();
-  console.log('Connecté à la base de données MySQL!');
-} catch (error) {
-  console.error('Impossible de se connecter, erreur suivante :', error);
-}
-
+// app.use('/api/auth', function (req, res, next) {
+//   console.log('test');
+//   next();
+// });
 
 module.exports = app;
