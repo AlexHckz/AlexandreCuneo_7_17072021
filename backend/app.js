@@ -9,7 +9,7 @@ const app = express();
 
 const path = require('path');
 const userRoutes = require('./routes/user.js');
-// const sauceRoutes = require('./routes/sauce.js');
+const postRoutes = require('./routes/post.js');
 
 
 // HELMET
@@ -30,15 +30,16 @@ app.use((req, res, next) => {
 
 // RATE LIMITER
 app.use(limiter);
-
 app.use(express.json());
+
+
 app.use('/images', express.static(path.join(__dirname, 'images')));
-// app.use('/api/sauces', sauceRoutes);
+app.use('/api/posts', postRoutes);
 app.use('/api/auth', userRoutes);
 
-// app.use('/api/auth', function (req, res, next) {
-//   console.log('test');
-//   next();
-// });
+app.use('/api/auth', function (req, res, next) {
+  console.log('test');
+  next();
+});
 
 module.exports = app;
