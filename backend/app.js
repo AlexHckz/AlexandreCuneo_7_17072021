@@ -1,11 +1,20 @@
 const express = require('express');
 
 // security
-require('dotenv').config()
-const helmet = require("helmet");
-const rateLimit = require("express-rate-limit");
+
+// require('dotenv').config()
+// const helmet = require("helmet");
+// const rateLimit = require("express-rate-limit");
 
 const app = express();
+
+const db = require('./models/');
+
+db.sequelize.sync().then((req) => {
+  app.listen(3000, () => {
+    console.log("server running");
+  });
+});
 
 const path = require('path');
 const userRoutes = require('./routes/user.js');
@@ -13,7 +22,7 @@ const postRoutes = require('./routes/post.js');
 
 
 // HELMET
-app.use(helmet());
+// app.use(helmet());
 
 // RATE LIMITER
 const limiter = rateLimit({

@@ -57,6 +57,7 @@ exports.deletePost = (req, res, next) => {
       fs.unlink(`images/${filename}`, () => {
         Post.deleteOne({ _id: req.params.id })
           .then(() => res.status(200).json({ message: 'Objet supprimé !'}))
+          
           .catch(error => res.status(400).json({ error }));
       });
     })
@@ -68,6 +69,7 @@ exports.getAllPosts = (req, res, next) => {
   Post.find().then(
     (posts) => {
       res.status(200).json(posts);
+      console.log('requete getAllPosts est OK');
     }
   ).catch(
     (error) => {
