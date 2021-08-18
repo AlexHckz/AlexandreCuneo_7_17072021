@@ -1,17 +1,22 @@
-// const mongoose = require('mongoose');
+const { Sequelize, Model, DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
 
-// const postSchema = mongoose.Schema({
-//   userId: { type: String, required: true },
-//   name: { type: String, required: true },
-//   manufacturer: { type: String, required: true },
-//   description: { type: String, required: true },
-//   mainPepper: { type: String, required: true },
-//   imageUrl: { type: String, required: true },
-//   heat: { type: Number, required: true },
-//   likes: { type: Number, default: 0 },
-//   dislikes: { type: Number, default: 0 },
-//   usersLiked: { type: Array, default: [] },
-//   usersDisliked: { type: Array, default: []}
-// });
+  const Post = sequelize.define("post" , {
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
+    text: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+  });
 
-// module.exports = mongoose.model('Post', postSchema);
+module.exports = Post;
+

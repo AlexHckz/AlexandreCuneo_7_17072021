@@ -1,20 +1,17 @@
 <template>
     <footer>
-        <div>
-            <a id="footerLinkA" v-bind:href="linkA">Cours Vue JS</a>
-            <a id="footerLinkB" >CGU</a>
-            <a id="footerLinkC" >Crédits</a> 
+        <div id="footerLinks">
+            <a id="footerLinkA" v-bind:href="cheatlist">Ma super cheatlist</a>
         </div>
     </footer>
 </template>
 
 <script>
+
 export default {
-  name: 'Title of my website',
-  props: {
-    title: String
-  }
+  name: 'Footer'
 }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

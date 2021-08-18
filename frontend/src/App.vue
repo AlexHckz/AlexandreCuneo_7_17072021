@@ -1,11 +1,9 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> |
-    <router-link to="/signup">Signup</router-link>
-  </div>
   <router-view/>
 </template>
+
+<script>
+</script>
 
 <style>
 #app {
@@ -15,17 +13,26 @@
   text-align: center;
   color: #2c3e50;
 }
-
-#nav {
-  padding: 30px;
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-size: 14px;
 }
 
 #nav a {
   font-weight: bold;
   color: #2c3e50;
 }
-
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+@media screen and (min-width: 1000px) {
+        body {
+          font-size: 16px;
+        }
+    }
 </style>

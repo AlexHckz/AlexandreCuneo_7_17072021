@@ -1,19 +1,31 @@
 <template>
-  <Header title="Le titre de mon super site"/>
-  <Main titleMain="My Title Main"/>
+  <Header title="Mon réseau social"/>
+  <main>
+      <section class="left">
+            <h1>Menu</h1>
+      </section>
+
+      <section class="right">
+            <h1>Information utilisateur</h1>
+            <div class="posts-wrapper">
+              <p>Premier post</p>
+              <p>Deuxieme post</p>
+              <p>Troisieme post</p>
+              <p>Quatrieme post</p>
+            </div>
+      </section>
+    </main>
   <Footer/>
 </template>
 
 <script>
 import Header from '../components/Header.vue'
-import Main from '../components/Main.vue'
 import Footer from '../components/Footer.vue'
 
 export default {
   name: 'Home',
   components: {
     Header,
-    Main,
     Footer
   }
 }
@@ -22,5 +34,42 @@ export default {
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
+}
+main {
+        display: flex;
+        height: calc(100vh - 160px);
+    }
+.left {
+    min-height: 10vh;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 10px 20px;
+}
+.left h1, .right h1 {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+.left {
+    background-color: #9F9F9F;
+    flex: 0 0 30%;
+}
+.right {
+    min-height: 10vh;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 10px 20px;
+}
+.right {
+    background-color: #EBEBEB;
+    flex: 1 1 70%;
+}
+.user-info-wrapper {
+    margin-top: 1em;
+    display: flex;
+    flex-wrap: wrap;
+}
+.user-info-wrapper p {
+    width: 100%;
 }
 </style>

@@ -4,9 +4,18 @@
             <img src="../assets/main_logo.png" alt="logo principal" width="48px" height="48px">
             <h1>{{ title }}</h1>
         </div>
+        <div class="wrapper-middle">
+            <div id="nav">
+                <router-link to="/">Home</router-link>
+                <router-link to="/about">About</router-link>
+                <router-link to="/create_user">Signup</router-link>
+                
+            </div>
+        </div>
         <div class="wrapper-right">
-            <a href="#">Logout</a>
-            <img src="../assets/user_logo.png" alt="logo principal" width="48px" height="48px">
+            <router-link to="/user_account">
+                <img src="../assets/user_logo.png" alt="logo principal" width="48px" height="48px">
+            </router-link>
         </div>
     </header>
 </template>
@@ -31,31 +40,45 @@ export default {
         box-sizing: border-box;
         background-color: #FF9090;
     }
-    header .wrapper-right {
-        display: flex;
-        justify-content: space-between; 
-        flex-basis: 160px;
-    }
     header .wrapper-left {
         display: flex;
         align-items: center;
+        flex: 1 1 auto;
+    }
+    header .wrapper-middle {
+        display: flex;
+        justify-content: center; 
+        flex: 1 1 auto;
+    }
+    header .wrapper-right {
+        display: flex;
+        justify-content: flex-end; 
+        flex: 0 1 15%;
     }
     header h1 {
-        font-size: 24px;
-        margin: 0 30px;
+        font-size: 1.3em;
+        margin: 0 1em;
     }
     header img {
         width: 48px;
         height: 48px;
     }
-    header a {
+    header .wrapper-middle a {
         display: flex;
         align-items: center;
         border: solid black 1px;
         background-color: #fff;
-        padding: 10px 20px;
+        padding: 0.7em 1.2em;
         box-sizing: border-box;
         color: #000;
         text-decoration: none;
     }
+    #nav {
+        display: flex;
+        padding: 0;
+    }
+    header a {
+        margin-right: 2em;    
+    }
+
 </style>
