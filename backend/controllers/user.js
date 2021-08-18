@@ -18,7 +18,7 @@ schema
 
 
 exports.signup = (req, res, next) => {
-  const user = User.create({ name: req.body.name, firstName: req.body.firstName, email: req.body.email, biography: req.body.biography  }).then(() => res.status(201).json({ message: 'Utilisateur créé !' }));
+  const user = User.create({ name: req.body.name, firstName: req.body.firstName, email: req.body.email, password: req.body.password, biography: req.body.biography  }).then(() => res.status(201).json({ message: 'Utilisateur créé !' }));
 
   // if (!schema.validate(req.body.password)) {
   //   res.status(400).json({ message: 'Mot de passe invalide !' })

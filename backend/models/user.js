@@ -29,6 +29,13 @@ const sequelize = require('../config/database');
         notEmpty: true
       },
     },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false, 
+      validate: {
+        notEmpty: true
+      },
+    },
     biography: {
       type: DataTypes.STRING,
       allowNull: false, 
@@ -37,14 +44,6 @@ const sequelize = require('../config/database');
       },
     }
   });
-
-  // (async () => {
-  //   await sequelize.sync();
-  //     const jane = await User.create({ name: "Marshall", firstName: "Jane", email: "test3@gmail.com", biography: "blabla"});
-  //     // Jane exists in the database now!
-  //     console.log(jane instanceof User); // true
-  //     console.log(jane.name); // "Jane"
-  // })();
 
   module.exports = User;
 

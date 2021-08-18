@@ -8,20 +8,21 @@
             <h1 v-if="mode == 'signup'">Inscription</h1>
             <h1 v-else>Login</h1>
 
-            <p v-if="mode == 'signup'">Vous avez déjà un compte ? <span class="" @click="switchToLogin()">Connectez vous</span></p>
-            <p v-else>Vous n'avez pas de compte ? <span class="" @click="switchToSignup()">Inscrivez -vous</span></p>
+            <p v-if="mode == 'signup'">Vous avez déjà un compte ? <a class="switchLinks" @click="switchToLogin()">Connectez vous</a></p>
+            <p v-else>Vous n'avez pas de compte ? <a class="switchLinks" @click="switchToSignup()">Inscrivez -vous</a></p>
 
             <div class="form-wrapper form-group">
                 <form action="/action_page.php" @submit.prevent="submitForm()">
 
-
-                    <input type="text" id="firstName" name="firstName" placeholder="Votre prénom" v-model="firstName"><br><br>
-                    <input type="text" id="name" name="name" placeholder="Votre nom" v-model="name"><br><br>
+                    <input type="text" id="firstName" name="firstName" placeholder="Votre prénom" v-if="mode == 'signup'" v-model="firstName"><br><br>
+                    <input type="text" id="name" name="name" placeholder="Votre nom" v-if="mode == 'signup'" v-model="name"><br><br>
                     <input type="text" id="email" name="email" placeholder="Votre adresse mail" v-model="email"><br><br>
                     <input type="text" id="password" name="password" placeholder="Votre mot de passe" v-model="password"><br><br>
-                    <textarea rows="5" id="biography" name="biography" placeholder="Votre biographie" v-model="biography"></textarea><br><br>
+                    <textarea rows="5" id="biography" name="biography" placeholder="Votre biographie" v-if="mode == 'signup'" v-model="biography"></textarea><br><br>
 
-                    <input type="submit" value="Submit">
+                    <button class="submitBtn" value="Submit" v-if="mode == 'signup'" >Inscrivez-vous!</button>
+                    <button class="connectBtn" value="Submit" v-else>Connectez-vous</button>
+
                 </form>
                 <p>Veuillez remplir les champs</p>
             </div>
@@ -35,7 +36,6 @@
 
 <script>
 import axios from 'axios';
-import 'bootstrap';
 export default {
   name: 'Signup',
   props: {
@@ -47,7 +47,9 @@ export default {
       firstName : '',
       name : '',
       email : '',
-      biography : ''
+      password : '',
+      biography : '',
+      mode: 'signup',
     }
   },
   methods: {
@@ -63,6 +65,7 @@ export default {
               firstName : this.firstName,
               name : this.name,
               email : this.email,
+              password : this.password,
               biography : this.biography
             }
 
@@ -70,6 +73,7 @@ export default {
             firstName: dataBody.firstName,
             name: dataBody.name,
             email: dataBody.email,
+            password: dataBody.password,
             biography: dataBody.biography
       })
       .then(function (dataBody) {
@@ -123,5 +127,9 @@ export default {
     }
     h1 {
       margin-bottom: 1em;
+    }
+    .switchLinks {
+        color: blue ;
+        text-decoration: underline;
     }
 </style>
