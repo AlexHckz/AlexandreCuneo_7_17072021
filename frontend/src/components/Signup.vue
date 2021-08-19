@@ -12,7 +12,7 @@
             <p v-else>Vous n'avez pas de compte ? <a class="switchLinks" @click="switchToSignup()">Inscrivez -vous</a></p>
 
             <div class="form-wrapper form-group">
-                <form action="/action_page.php" @submit.prevent="submitForm()">
+                <form action="/action_page.php" @submit.prevent="submitForm">
 
                     <input type="text" id="firstName" name="firstName" placeholder="Votre prénom" v-if="mode == 'signup'" v-model="firstName"><br><br>
                     <input type="text" id="name" name="name" placeholder="Votre nom" v-if="mode == 'signup'" v-model="name"><br><br>
@@ -20,28 +20,28 @@
                     <input type="text" id="password" name="password" placeholder="Votre mot de passe" v-model="password"><br><br>
                     <textarea rows="5" id="biography" name="biography" placeholder="Votre biographie" v-if="mode == 'signup'" v-model="biography"></textarea><br><br>
 
-                    <button class="submitBtn" value="Submit" v-if="mode == 'signup'" >Inscrivez-vous!</button>
-                    <button class="connectBtn" value="Submit" v-else>Connectez-vous</button>
+                    <button class="signupBtn" value="Submit" :disabled="!validatedFields" v-if="mode == 'signup'" >Inscrivez-vous!</button>
+                    <button class="loginBtn" value="Submit" v-else>Connectez-vous</button>
 
                 </form>
                 <p>Veuillez remplir les champs</p>
             </div>
-            
-
-
       </section>
     </main>
     
 </template>
 
 <script>
-import axios from 'axios';
+// import axios from 'axios';
+
 export default {
   name: 'Signup',
+
   props: {
       titleRight: String,
       titleLeft: String
   },
+
   data(){
     return{
       firstName : '',
@@ -52,15 +52,36 @@ export default {
       mode: 'signup',
     }
   },
+
+  computed: {
+    validatedFields: function () {
+      if (this.mode == 'signup') {
+        if (this.email != "" && this.name != "" && this.firstName != "" && this.biography != "" && this.password != ""){
+          return true;
+        } else {
+          return false;
+        }
+      } 
+      else {
+        if (this.email != "" && this.password != "") {
+          return true;
+        } 
+        else {
+          return false;
+        }
+      }
+    },
+  },
+
   methods: {
-    //AXIO en post (fetch) data
-    switchToLogin () {
+    switchToLogin: function () {
       this.mode = 'login'
     },
-    switchToSignup () {
+    switchToSignup: function () {
       this.mode = 'signup'
     },
-    submitForm(){
+
+    submitForm: function () {
       let dataBody = {
               firstName : this.firstName,
               name : this.name,
@@ -68,20 +89,19 @@ export default {
               password : this.password,
               biography : this.biography
             }
-
-      axios.post('http://localhost:3000/api/auth/signup', {
-            firstName: dataBody.firstName,
-            name: dataBody.name,
-            email: dataBody.email,
-            password: dataBody.password,
-            biography: dataBody.biography
-      })
-      .then(function (dataBody) {
-        console.log(dataBody);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    //   axios.post('http://localhost:3000/api/auth/signup', {
+    //     firstName: dataBody.firstName,
+    //     name: dataBody.name,
+    //     email: dataBody.email,
+    //     password: dataBody.password,
+    //     biography: dataBody.biography
+    //     })
+    //     .then(function () {
+    //         console.log('utilisateur bien ajouté!');
+    //     })
+    //     .catch(function (error) {
+    //         console.log(error);
+    //     });
     }
   }
 }
@@ -131,5 +151,9 @@ export default {
     .switchLinks {
         color: blue ;
         text-decoration: underline;
+        cursor: pointer;
+    }
+    .loginBtn, .signupBtn {
+        padding: 0.7em 1em;
     }
 </style>
