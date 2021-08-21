@@ -82,13 +82,13 @@ export default {
     },
 
     submitForm: function () {
-      let dataBody = {
-              firstName : this.firstName,
-              name : this.name,
-              email : this.email,
-              password : this.password,
-              biography : this.biography
-            }
+      // let dataBody = {
+      //         firstName : this.firstName,
+      //         name : this.name,
+      //         email : this.email,
+      //         password : this.password,
+      //         biography : this.biography
+      //       }
     //   axios.post('http://localhost:3000/api/auth/signup', {
     //     firstName: dataBody.firstName,
     //     name: dataBody.name,

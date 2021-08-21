@@ -16,49 +16,33 @@ schema
 .has().digits(2)                                // Must have at least 2 digits
 .has().not().spaces()                           // Should not have spaces
 
-
 exports.signup = (req, res, next) => {
-  const user = User.create({ name: req.body.name, firstName: req.body.firstName, email: req.body.email, password: req.body.password, biography: req.body.biography  }).then(() => res.status(201).json({ message: 'Utilisateur créé !' }));
+  const user = User.create({ name: req.body.name, firstName: req.body.firstName, email: req.body.email, password: req.body.password, biography: req.body.biography  })
+  .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
+  .catch(error => res.status(400).json({ error }));
 
-  // if (!schema.validate(req.body.password)) {
-  //   res.status(400).json({ message: 'Mot de passe invalide !' })
-  // }else{
-  //   bcrypt.hash(req.body.password, 10)
-  //   .then(hash => {
-
-  //     const user = new User({
-  //       email: req.body.email,
-  //       password: hash
-  //     });
-  //     user.save()
-        // .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-  //       .catch(error => res.status(400).json({ error }));
-  //   })
-  //   .catch(error => res.status(500).json({ error }));
-  // }
 };
 
-
-exports.login = (req, res, next) => {
-  User.findOne({ email: req.body.email })
-    .then(user => {
-      if (!user) {
-        return res.status(401).json({ error: 'Utilisateur non trouvé !' });
-      }
-      bcrypt.compare(req.body.password, user.password)
-        .then(valid => {
-          if (!valid) {
-            return res.status(401).json({ error: 'Mot de passe incorrect !' });
-          }
-          res.status(200).json({
-            userId: user._id,
-            token: jwt.sign(
-              { userId: user._id },
-              'RANDOM_TOKEN_SECRET',
-              { expiresIn: '24h' })
-          });
-        })
-        .catch(error => res.status(500).json({ error }));
-    })
-    .catch(error => res.status(500).json({ error }));
+exports.login = async (req, res, next) => {
+  console.log('req body email est' + req.body.email);
+  const user = await User.findOne({ where: { email: req.body.email } });
+  if (user === null) {
+    console.log('Not found');
+  } else {
+    console.log(user instanceof User);
+    console.log(user.email); // 'My Title'
+  }
 };
+
+exports.getAllUsers = async (req, res, next) => {
+  try {
+    console.log('salut'); 
+    const users = await User.findAll()
+    return res.json(users)
+    console.log("All users:", JSON.stringify(users, null, 2)); 
+  } 
+  catch (err) {
+    console.log(err)
+    return res.status(500).json({error : 'Something went wrong'})
+  }
+}

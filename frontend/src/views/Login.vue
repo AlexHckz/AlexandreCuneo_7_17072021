@@ -17,8 +17,8 @@
                 <input v-model="email" class="form-row__input" type="text" placeholder="Adresse mail"/>
                 </div>
                 <div class="form-row" v-if="mode == 'create'">
-                <input v-model="prenom" class="form-row__input" type="text" placeholder="Prénom"/>
-                <input v-model="nom" class="form-row__input" type="text" placeholder="Nom"/>
+                <input v-model="firstName" class="form-row__input" type="text" placeholder="Prénom"/>
+                <input v-model="name" class="form-row__input" type="text" placeholder="Nom"/>
                 </div>
                 <div class="form-row"  v-if="mode == 'create'">
                 <textarea v-model="biography" class="form-row__input" rows="4" placeholder="Biographie"/>
@@ -63,9 +63,10 @@ export default {
     return {
       mode: 'login',
       email: '',
-      prenom: '',
-      nom: '',
+      firstName: '',
+      name: '',
       password: '',
+      biography: ''
     }
   },
   mounted: function () {
@@ -77,7 +78,7 @@ export default {
   computed: {
     validatedFields: function () {
       if (this.mode == 'create') {
-        if (this.email != "" && this.prenom != "" && this.nom != "" && this.password != "") {
+        if (this.email != "" && this.firstName != "" && this.name != "" && this.password != "" && this.biography != "") {
           return true;
         } else {
           return false;
@@ -114,9 +115,10 @@ export default {
       const self = this;
       this.$store.dispatch('createAccount', {
         email: this.email,
-        nom: this.nom,
-        prenom: this.prenom,
+        name: this.name,
+        firstName: this.firstName,
         password: this.password,
+        biography: this.biography
       }).then(function () {
         self.login();
       }, function (error) {

@@ -9,7 +9,12 @@
 <script>
 
 export default {
-  name: 'Footer'
+  name: 'Footer',
+  data: function () {
+    return {
+      cheatlist: 'https://devhints.io/vue'
+    }
+  },
 }
 
 </script>

@@ -30,10 +30,11 @@ const store = createStore({
     status: '',
     user: user,
     userInfos: {
-      nom:'',
-      prenom: '',
+      name:'',
+      firstName: '',
       email: '',
-      photo: '',
+      password: '',
+      biography: '',
     },
   },
   mutations: {
