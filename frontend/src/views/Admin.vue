@@ -7,17 +7,10 @@
 
       <section class="right">
             <h1>Information utilisateur</h1>
-            <div v-for="post in posts" :key="post.id" class="posts-wrapper">
-              <li>{{ post.name }}</li>
-              <li>{{ post.text }}</li>
-
-              <div class="btn-wrapper">
-                <button>Editer</button>
-                <button>Commenter</button>
-              </div>
-              
+            <div v-for="user in users" :key="user.id" class="posts-wrapper">
+              <li>{{ user.firstName }}</li>
+              <li>{{ user.name }}</li>
             </div>
-            
       </section>
     </main>
   <Footer/>
@@ -28,20 +21,20 @@ import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
 
 export default {
-  name: 'Home',
+  name: 'Admin',
   components: {
     Header,
     Footer
   },
   data() {
     return  {
-      posts: []
+      users: []
     }
   },
   mounted () {
-    fetch('http://localhost:3000/api/auth/posts')
+    fetch('http://localhost:3000/api/auth/users')
     .then(res => res.json())
-    .then(data => this.posts = data)
+    .then(data => this.users = data)
     .catch(err => console.log(err.message))
   }
 }
@@ -88,26 +81,5 @@ main {
 }
 .user-info-wrapper p {
     width: 100%;
-}
-.posts-wrapper {
-    margin-top : 1em;
-    padding: 0.5em;
-    font-size: 13px;
-    background-color: #fff;
-    border: solid black 1px;
-}
-.posts-wrapper li:first-child {
-    margin : 0.3em 0;
-}
-.posts-wrapper li {
-    list-style-type: none;
-}
-.btn-wrapper {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 0.5em;
-}
-.btn-wrapper > * {
-    margin-right: 0.5em;
 }
 </style>

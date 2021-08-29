@@ -15,7 +15,9 @@ app.use((req, res, next) => {
 const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');
 
+
 app.use('/api/auth/', userRoutes );
+app.use('/api/auth/', postRoutes );
 
 
 module.exports = app;

@@ -19,16 +19,6 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
-  {
-    path: '/create_user',
-    name: 'CreateUser',
-    component: () => import(/* webpackChunkName: "about" */ '../views/CreateUser.vue')
-  },
-  {
-    path: '/user_account',
-    name: 'UserAccount',
-    component: () => import(/* webpackChunkName: "about" */ '../views/UserAccount.vue')
-  },
   { 
     name: 'login',
     path: '/login', 
@@ -39,7 +29,12 @@ const routes = [
     path: '/profile', 
     component: Profile, 
     props:true 
-  }
+  },
+  { 
+    name: 'admin',
+    path: '/admin', 
+    component: () => import(/* webpackChunkName: "about" */ '../views/Admin.vue')
+  },
 ]
 
 const router = createRouter({

@@ -15,6 +15,16 @@ exports.createPost = (req, res, next) => {
 //     .catch(error => res.status(400).json({ error }));
 };
 
+exports.getAllPosts = (req, res, next) => {
+  console.log('salut'); 
+  const posts = Post.findAll()
+  .then((posts) => {
+      res.status(201).json(posts);
+  })
+  .catch(error => res.status(400).json({ error }));
+};
+
+
 exports.getOnePost = (req, res, next) => {
   Post.findOne({
     _id: req.params.id
@@ -65,20 +75,5 @@ exports.deletePost = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
 }; 
 
-
-exports.getAllPosts = (req, res, next) => {
-  Post.find().then(
-    (posts) => {
-      res.status(200).json(posts);
-      console.log('requete getAllPosts est OK');
-    }
-  ).catch(
-    (error) => {
-      res.status(400).json({
-        error: error
-      });
-    }
-  );
-};
 
 

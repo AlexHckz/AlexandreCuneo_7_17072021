@@ -20,29 +20,51 @@ exports.signup = (req, res, next) => {
   const user = User.create({ name: req.body.name, firstName: req.body.firstName, email: req.body.email, password: req.body.password, biography: req.body.biography  })
   .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
   .catch(error => res.status(400).json({ error }));
-
 };
 
-exports.login = async (req, res, next) => {
-  console.log('req body email est' + req.body.email);
-  const user = await User.findOne({ where: { email: req.body.email } });
-  if (user === null) {
-    console.log('Not found');
-  } else {
-    console.log(user instanceof User);
-    console.log(user.email); // 'My Title'
-  }
+exports.login = (req, res, next) => {
+  const user = User.findOne({ where: { email: req.body.email, password: req.body.password } })
+  .then((user) => {
+    if (user === null) {
+      console.log('Not found');
+      res.status(400).json({ error })
+    } else {
+      res.status(201).json({ 
+        message: 'Utilisateur ok !',
+        userId: user.id,
+        token: jwt.sign(
+        { userId: user.id },
+        'RANDOM_TOKEN_SECRET',
+        { expiresIn: '24h' })
+      })
+    }
+  })
+  .catch(error => res.status(400).json({ error }));
+  
 };
 
-exports.getAllUsers = async (req, res, next) => {
-  try {
+exports.getAllUsers = (req, res, next) => {
     console.log('salut'); 
-    const users = await User.findAll()
-    return res.json(users)
-    console.log("All users:", JSON.stringify(users, null, 2)); 
-  } 
-  catch (err) {
-    console.log(err)
-    return res.status(500).json({error : 'Something went wrong'})
-  }
+    const users = User.findAll()
+    .then((users) => {
+        res.status(201).json(users);
+    })
+    .catch(error => res.status(400).json({ error }));
 }
+
+exports.getOneUser = (req, res, next) => {
+  console.log('nouveau test'); 
+  User.findOne({
+     where: { userId: req.body.id } 
+  }).then(
+    (user) => {
+      res.status(200).json(user);
+    }
+  ).catch(
+    (error) => {
+      res.status(404).json({
+        error: error
+      });
+    }
+  );
+};

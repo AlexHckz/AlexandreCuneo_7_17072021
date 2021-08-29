@@ -9,11 +9,12 @@
                 <router-link to="/">Home</router-link>
                 <router-link to="/about">About</router-link>
                 <router-link to="/login">Login</router-link>
+                <router-link to="/admin">Admin</router-link>
                 
             </div>
         </div>
         <div class="wrapper-right">
-            <router-link to="/user_account">
+            <router-link to="/profile">
                 <img src="../assets/user_logo.png" alt="logo principal" width="48px" height="48px">
             </router-link>
         </div>
