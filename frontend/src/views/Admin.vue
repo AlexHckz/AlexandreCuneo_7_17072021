@@ -70,7 +70,7 @@ main {
     padding: 10px 20px;
 }
 .right {
-    background-color: #EBEBEB;
+    background-color: #fff;
     flex: 1 1 70%;
     overflow: scroll;
 }

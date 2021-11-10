@@ -1,7 +1,7 @@
 <template>
     <footer>
         <div id="footerLinks">
-            <a id="footerLinkA" v-bind:href="cheatlist">Ma super cheatlist</a>
+            <a id="footerLinkA" :href="cheatlist">Ma super cheatlist</a>
         </div>
     </footer>
 </template>
@@ -28,7 +28,7 @@ export default {
         height: 80px;
         padding: 20px;
         box-sizing: border-box;
-        background-color: #FF9090;
+        background-color: #0d6efd;
     }
     footer div {
         display: flex;

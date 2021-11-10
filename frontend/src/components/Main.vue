@@ -47,15 +47,14 @@ export default {
         min-height: 10vh;
         overflow: hidden;
         box-sizing: border-box;
-        padding: 10px 20px;
+        background-color: #FFF;
+        flex: 1 1 70%;
+        padding: 0;
+        margin: 0;
     }
     .right h1 {
         margin: 0;
         padding: 0;
         text-align: center;
-    }
-    .right {
-        background-color: #EBEBEB;
-        flex: 1 1 70%;
     }
 </style>

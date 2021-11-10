@@ -5,6 +5,7 @@
             <h1>{{ title }}</h1>
         </div>
         <div class="wrapper-middle">
+
             <div id="nav">
                 <router-link to="/">Home</router-link>
                 <router-link to="/about">About</router-link>
@@ -39,7 +40,8 @@ export default {
         height: 80px;
         padding: 20px;
         box-sizing: border-box;
-        background-color: #FF9090;
+        background-color: #0d6efd;
+        color: #FFF;
     }
     header .wrapper-left {
         display: flex;

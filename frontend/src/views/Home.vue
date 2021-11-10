@@ -12,8 +12,9 @@
               <li>{{ post.text }}</li>
 
               <div class="btn-wrapper">
-                <button>Editer</button>
-                <button>Commenter</button>
+               
+                <button class="btn-primary"><i class="fas fa-edit"></i>Editer</button>
+                <button class="btn-primary"><i class="fas fa-comment"></i>Commenter</button>
               </div>
               
             </div>
@@ -77,7 +78,7 @@ main {
     padding: 10px 20px;
 }
 .right {
-    background-color: #EBEBEB;
+    background-color: #fff;
     flex: 1 1 70%;
     overflow: scroll;
 }
@@ -93,7 +94,7 @@ main {
     margin-top : 1em;
     padding: 0.5em;
     font-size: 13px;
-    background-color: #fff;
+    background-color: #EBEBEB;
     border: solid black 1px;
 }
 .posts-wrapper li:first-child {
@@ -109,5 +110,8 @@ main {
 }
 .btn-wrapper > * {
     margin-right: 0.5em;
+}
+.btn-primary > * {
+  margin-right: 5px;
 }
 </style>

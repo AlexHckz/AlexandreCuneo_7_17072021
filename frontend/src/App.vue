@@ -23,11 +23,12 @@ body {
 }
 
 #nav a {
-  font-weight: bold;
-  color: #2c3e50;
+    color: #fff;
+    background-color: #ffffff00;
+    border: none;
 }
 #nav a.router-link-exact-active {
-  color: #42b983;
+  font-size: 1.2em;
 }
 
 @media screen and (min-width: 1000px) {

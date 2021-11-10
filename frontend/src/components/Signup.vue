@@ -139,7 +139,7 @@ export default {
         text-align: center;
     }
     .right {
-        background-color: #EBEBEB;
+        background-color: #fff;
         flex: 1 1 70%;
     }
     .form-wrapper {

@@ -81,16 +81,16 @@ export default {
         min-height: 10vh;
         overflow: hidden;
         box-sizing: border-box;
-        padding: 10px 20px;
     }
     .right h1 {
         margin: 0;
-        padding: 0;
+        padding: 10px 20px;
         text-align: center;
     }
     .right {
-        background-color: #EBEBEB;
+        background-color: #fff;
         flex: 1 1 70%;
+        padding: 0px;
     }
     h1 {
     margin-bottom: 1em;

@@ -113,6 +113,7 @@ export default {
     },
     createAccount: function () {
       const self = this;
+      console.log(this.firstName,this.email)
       this.$store.dispatch('createAccount', {
         email: this.email,
         name: this.name,
