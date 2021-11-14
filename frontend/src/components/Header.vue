@@ -2,14 +2,15 @@
     <header>
         <div class="wrapper-left">
             <img src="../assets/main_logo.png" alt="logo principal" width="48px" height="48px">
-            <h1>{{ title }}</h1>
+            <h1>Groupomania</h1>
         </div>
         <div class="wrapper-middle">
 
             <div id="nav">
                 <router-link to="/">Home</router-link>
                 <router-link to="/about">About</router-link>
-                <router-link to="/login">Login</router-link>
+                <router-link to="/profile" v-if="$store.state.user.userId != -1">Profile</router-link>
+                <router-link to="/login" v-else>Login</router-link>
                 <router-link to="/admin">Admin</router-link>
                 
             </div>
@@ -25,10 +26,8 @@
 <script>
 export default {
   name: 'Title of my website',
-  props: {
-    title: String
-  }
 }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -43,14 +42,9 @@ export default {
         background-color: #0d6efd;
         color: #FFF;
     }
-    header .wrapper-left {
-        display: flex;
-        align-items: center;
-        flex: 1 1 auto;
-    }
     header .wrapper-middle {
         display: flex;
-        justify-content: center; 
+        font-size: 0.9em;
         flex: 1 1 auto;
     }
     header .wrapper-right {
@@ -82,6 +76,20 @@ export default {
     }
     header a {
         margin-right: 2em;    
+    }
+     header .wrapper-left {
+        display: none;
+    }
+    @media screen and (min-width: 900px) {
+        header .wrapper-left {
+            display: flex;
+            align-items: center;
+            flex: 1 1 auto;
+        }
+        header .wrapper-middle {
+            font-size: 1em;
+        }
+        
     }
 
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <Header title="Mon réseau social"/>
+    <Header/>
     <main>
         <section class="left">
             <h1>Menu</h1>
@@ -97,7 +97,7 @@ export default {
     switchToCreateAccount: function () {
       this.mode = 'create';
     },
-    switchToLogin: function () {
+    switchToLogin: function () { 
       this.mode = 'login';
     },
     login: function () {

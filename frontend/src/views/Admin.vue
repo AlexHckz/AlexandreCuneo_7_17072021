@@ -1,5 +1,5 @@
 <template>
-  <Header title="Mon réseau social"/>
+  <Header/>
   <main>
       <section class="left">
             <h1>Menu</h1>

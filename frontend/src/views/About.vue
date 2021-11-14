@@ -1,5 +1,5 @@
 <template>
-  <Header title="Mon réseau social"/>
+  <Header/>
   <Main titleLeft="Menu" titleRight="Ma page About"/>
   <Footer/>
 </template>

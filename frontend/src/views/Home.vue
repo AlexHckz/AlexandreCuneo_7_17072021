@@ -1,24 +1,17 @@
 <template>
-  <Header title="Mon réseau social"/>
+  <Header/>
   <main>
       <section class="left">
             <h1>Menu</h1>
       </section>
 
       <section class="right">
-            <h1>Information utilisateur</h1>
+            <h1>Derniers billets de blog</h1>
             <div v-for="post in posts" :key="post.id" class="posts-wrapper">
               <li>{{ post.name }}</li>
               <li>{{ post.text }}</li>
-
-              <div class="btn-wrapper">
-               
-                <button class="btn-primary"><i class="fas fa-edit"></i>Editer</button>
-                <button class="btn-primary"><i class="fas fa-comment"></i>Commenter</button>
-              </div>
-              
+              <Post></Post>
             </div>
-            
       </section>
     </main>
   <Footer/>
@@ -26,17 +19,19 @@
 
 <script>
 import Header from '../components/Header.vue'
+import Post from '../components/Post.vue'
 import Footer from '../components/Footer.vue'
 
 export default {
   name: 'Home',
   components: {
     Header,
+    Post,
     Footer
   },
   data() {
     return  {
-      posts: []
+      posts: [],
     }
   },
   mounted () {
@@ -44,7 +39,9 @@ export default {
     .then(res => res.json())
     .then(data => this.posts = data)
     .catch(err => console.log(err.message))
-  }
+  },
+  
+
 }
 </script>
 

@@ -73,6 +73,7 @@ export default {
     },
   },
 
+
   methods: {
     switchToLogin: function () {
       this.mode = 'login'
@@ -82,26 +83,26 @@ export default {
     },
 
     submitForm: function () {
-      // let dataBody = {
-      //         firstName : this.firstName,
-      //         name : this.name,
-      //         email : this.email,
-      //         password : this.password,
-      //         biography : this.biography
-      //       }
-    //   axios.post('http://localhost:3000/api/auth/signup', {
-    //     firstName: dataBody.firstName,
-    //     name: dataBody.name,
-    //     email: dataBody.email,
-    //     password: dataBody.password,
-    //     biography: dataBody.biography
-    //     })
-    //     .then(function () {
-    //         console.log('utilisateur bien ajouté!');
-    //     })
-    //     .catch(function (error) {
-    //         console.log(error);
-    //     });
+      let dataBody = {
+              firstName : this.firstName,
+              name : this.name,
+              email : this.email,
+              password : this.password,
+              biography : this.biography
+            }
+      axios.post('http://localhost:3000/api/auth/signup', {
+        firstName: dataBody.firstName,
+        name: dataBody.name,
+        email: dataBody.email,
+        password: dataBody.password,
+        biography: dataBody.biography
+        })
+        .then(function () {
+            console.log('utilisateur bien ajouté!');
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
     }
   }
 }
