@@ -10,7 +10,7 @@
             <div class="card">
               <h1 class="card__title">Mon profil</h1>
               <p class="card__subtitle">Voilà donc qui je suis...</p>
-              <p>{{user.firstName}} {{user.name}} {{user.email}}</p>
+              <p>{{user.firstName}} {{user.name}} email : {{user.email}}</p>
               <p>{{user.biography}}</p>
               <div class="form-row">
                 <button @click="logout()" class="button">
@@ -25,9 +25,10 @@
 
 <script>
 import { mapState } from 'vuex'
-
+import axios from "axios"
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
+import apiUrl from '../apiUrl.js'
 
 export default {
   name: 'Profile',
@@ -35,13 +36,28 @@ export default {
     Header,
     Footer,
   },
-  mounted: function () {
-    console.log(this.$store.state.user);
+  data: () => {
+    return {
+      user: {},
+    }
+  },
+  mounted: async function () {
+    console.log("this.$store.state.user", this.$store.state.user);
     if (this.$store.state.user.userId == -1) {
       this.$router.push('/');
       return ;
     }
-    this.$store.dispatch('getUserInfos');
+    console.log("on est loguer");
+    let flagError = false;
+    const payload = {token: this.$store.state.user.token};
+    const res = await axios.post(`${apiUrl}/api/auth/user/`, payload).catch(e => {
+      console.log("erreur :>", e);
+      this.logout();
+      flagError = true;
+    }) 
+    if (flagError) {return}
+    this.user = res.data;
+    console.log("this.user" , this.user)
   },
   computed: {
     ...mapState({

@@ -12,12 +12,17 @@
               <li>{{ post.text }}</li>
               <Post></Post>
             </div>
+
+          <a href="/add_post" v-if="$store.state.user.userId != -1"><button class="btn-primary">Ajouter un post</button></a>
+          
+
       </section>
     </main>
   <Footer/>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import Header from '../components/Header.vue'
 import Post from '../components/Post.vue'
 import Footer from '../components/Footer.vue'
@@ -39,6 +44,11 @@ export default {
     .then(res => res.json())
     .then(data => this.posts = data)
     .catch(err => console.log(err.message))
+  },
+  computed: {
+    ...mapState({
+      user: 'userInfos',
+    })
   },
   
 

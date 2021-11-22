@@ -1,21 +1,22 @@
 <template>
-    <div class="btn-wrapper">
+            <div class="btn-wrapper">
                 <button class="btn-primary" @click="newEditing"><i class="fas fa-edit"></i>Editer</button>
                 <button class="btn-primary" @click="newCommenting"><i class="fas fa-comment"></i>Commenter</button>
-              </div>
+            </div>
 
-              <div class="form-group" v-if="editing">
+            <div class="form-group" v-if="editing">
                   <label for="exampleFormControlTextarea1">Editez le billet de blog:</label>
                   <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                   <button class="btn-primary">Modifier</button>
                   <button class="btn-close" @click="close"></button>
-              </div>
-              <div class="form-group" v-if="commenting">
+            </div>
+            
+            <div class="form-group" v-if="commenting">
                   <label for="exampleFormControlTextarea1">Votre commentaire:</label>
                   <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                   <button class="btn-primary">Commenter</button>
                   <button class="btn-close" @click="close"></button>
-    </div>
+            </div>
 </template>
 
 <script>

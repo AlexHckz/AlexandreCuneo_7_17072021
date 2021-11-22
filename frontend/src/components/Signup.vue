@@ -84,25 +84,23 @@ export default {
 
     submitForm: function () {
       let dataBody = {
-              firstName : this.firstName,
-              name : this.name,
-              email : this.email,
-              password : this.password,
-              biography : this.biography
-            }
+        firstName : this.firstName,
+        name : this.name,
+        email : this.email,
+        password : this.password,
+        biography : this.biography
+      }
       axios.post('http://localhost:3000/api/auth/signup', {
         firstName: dataBody.firstName,
         name: dataBody.name,
         email: dataBody.email,
         password: dataBody.password,
         biography: dataBody.biography
-        })
-        .then(function () {
+      }).then(function () {
             console.log('utilisateur bien ajouté!');
-        })
-        .catch(function (error) {
+      }).catch(function (error) {
             console.log(error);
-        });
+      });
     }
   }
 }
