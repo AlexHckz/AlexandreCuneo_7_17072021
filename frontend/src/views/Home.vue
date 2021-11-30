@@ -1,24 +1,23 @@
 <template>
-  <Header/>
-  <main>
-      <section class="left">
-            <h1>Menu</h1>
-      </section>
+    <div>
+          <Header></Header>
+          <main>
+                <section class="left">
+                      <h1>Menu</h1>
+                </section>
 
-      <section class="right">
-            <h1>Derniers billets de blog</h1>
-            <div v-for="post in posts" :key="post.id" class="posts-wrapper">
-              <li>{{ post.name }}</li>
-              <li>{{ post.text }}</li>
-              <Post></Post>
-            </div>
-
-          <a href="/add_post" v-if="$store.state.user.userId != -1"><button class="btn-primary">Ajouter un post</button></a>
-          
-
-      </section>
-    </main>
-  <Footer/>
+                <section class="right">
+                      <h1>Derniers billets de blog</h1>
+                      <div v-for="post in posts" :key="post.id" class="posts-wrapper">
+                        <li>{{ post.name }}</li>
+                        <li>{{ post.text }}</li>
+                        <Post></Post>
+                      </div>
+                    <a href="/add_post" v-if="$store.state.user.userId != -1"><button class="btn-primary">Ajouter un post</button></a>
+                </section>
+          </main>
+          <Footer></Footer>
+    </div>
 </template>
 
 <script>
@@ -57,12 +56,12 @@ export default {
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
 }
 main {
-        display: flex;
-        height: calc(100vh - 160px);
-    }
+    display: flex;
+    height: calc(100vh - 160px);
+}
 .left {
     min-height: 10vh;
     overflow: hidden;

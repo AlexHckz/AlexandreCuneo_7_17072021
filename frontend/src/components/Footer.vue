@@ -1,9 +1,11 @@
 <template>
-    <footer>
-        <div id="footerLinks">
-            <a id="footerLinkA" :href="cheatlist">Ma super cheatlist</a>
-        </div>
-    </footer>
+    <div>
+        <footer>
+            <div id="footerLinks">
+                <a id="footerLinkA" :href="cheatlist">Ma super cheatlist</a>
+            </div>
+        </footer>
+    </div>
 </template>
 
 <script>

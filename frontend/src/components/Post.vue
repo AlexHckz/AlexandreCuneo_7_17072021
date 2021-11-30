@@ -1,4 +1,5 @@
 <template>
+    <div>
             <div class="btn-wrapper">
                 <button class="btn-primary" @click="newEditing"><i class="fas fa-edit"></i>Editer</button>
                 <button class="btn-primary" @click="newCommenting"><i class="fas fa-comment"></i>Commenter</button>
@@ -7,7 +8,7 @@
             <div class="form-group" v-if="editing">
                   <label for="exampleFormControlTextarea1">Editez le billet de blog:</label>
                   <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                  <button class="btn-primary">Modifier</button>
+                  <button class="btn-primary" @click="editPost">Modifier</button>
                   <button class="btn-close" @click="close"></button>
             </div>
             
@@ -17,9 +18,12 @@
                   <button class="btn-primary">Commenter</button>
                   <button class="btn-close" @click="close"></button>
             </div>
+    </div>
 </template>
 
 <script>
+
+import axios from 'axios'
 
 export default {
   name: 'Post',
@@ -41,6 +45,20 @@ export default {
         close: function () {
             this.commenting = false;
             this.editing = false;
+        },
+        editPost: function () {
+            console.log("test");
+            axios
+            .put(`http://localhost:3000/api/auth`, {
+            name: this.name,
+            text: this.text,
+            })
+            .then(response => {
+            console.log(response);
+            })
+            .catch(function (error) {
+            console.log(error);
+            });
         }
     }
    

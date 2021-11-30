@@ -1,26 +1,30 @@
 <template>
-  <Header/>
-   <main>
-        <section class="left">
-            <h1>Menu</h1>
-        </section>
+  <div>
+      <Header/>
+      <main>
+            <section class="left">
+                <h1>Menu</h1>
+            </section>
 
-        <section class="right">
-            <h1 v-if="mode == 'signup'">Espace Personnel</h1>
-            <div class="card">
-              <h1 class="card__title">Mon profil</h1>
-              <p class="card__subtitle">Voilà donc qui je suis...</p>
-              <p>{{user.firstName}} {{user.name}} email : {{user.email}}</p>
-              <p>{{user.biography}}</p>
-              <div class="form-row">
-                <button @click="logout()" class="button">
-                  Déconnexion
-                </button>
-              </div>
-            </div>
-        </section>
-      </main>
-  <Footer/>
+            <section class="right">
+                <h1 v-if="mode == 'signup'">Espace Personnel</h1>
+                <div class="card">
+                  <h1 class="card__title">Mon profil</h1>
+                  <p class="card__subtitle">Information utilisateur...</p>
+                  <p>   
+                      Nom: {{user.firstName}} {{user.name}}<br> 
+                      Email: {{user.email}}<br> 
+                      Biographie: {{user.biography}}
+                  </p>
+                  <div class="form-row">
+                      <button @click="logout()" class="button">Déconnexion</button>
+                      <button @click="deleteProfile()" class="button">Delete your profile</button>
+                  </div>
+                </div>
+            </section>
+          </main>
+      <Footer/>
+  </div>
 </template>
 
 <script>
@@ -68,8 +72,21 @@ export default {
     logout: function () {
       this.$store.commit('logout');
       this.$router.push('/');
+    },
+    
+    deleteProfile: async function () {
+      console.log('Mon user id>' + this.user.id)
+      const payload = { id: this.user.id}
+      await axios.delete(`${apiUrl}/api/auth/delete`, { data : payload })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => { 
+        console.log(err);
+      })
     }
   }
+  
 }
 </script>
 

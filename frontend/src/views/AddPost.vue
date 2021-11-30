@@ -16,7 +16,7 @@
               type="text"
               class="form-control"
               id="exampleFormControlInput1"
-              placeholder="name@example.com"
+              placeholder="titre du post"
             />
           </div>
           <div class="form-group">
@@ -54,13 +54,6 @@ export default {
       text: "",
     };
   },
-  // mounted: function () {
-  //   fetch('http://localhost:3000/api/auth/posts')
-  //   .then(res => res.json())
-  //   .then(data => this.posts = data)
-  //   .catch(err => console.log(err.message))
-  // },
-
   methods: {
     createPost() {
       axios
@@ -68,9 +61,8 @@ export default {
           name: this.name,
           text: this.text,
         })
-        .then(function (response) {
+        .then(response => {
           console.log(response);
-          alert("Le post a bien été ajouté");
         })
         .catch(function (error) {
           console.log(error);

@@ -63,8 +63,6 @@ exports.login = (req, res, next) => {
 };
 
 exports.getAllUsers = (req, res, next) => {
-    console.log('salut'); 
-    
     const users = User.findAll()
     .then((users) => {
         res.status(201).json(users);
@@ -92,3 +90,13 @@ exports.getOneUser = (req, res, next) => {
     }
   );
 };
+
+exports.deleteUser = (req, res, next) => {
+    console.log('ici');
+    console.log("ma requete body >" + req.body.id);
+    User.destroy({
+      where: {id: req.body.id}
+    })
+};
+
+

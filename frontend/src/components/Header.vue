@@ -1,4 +1,5 @@
 <template>
+<div>
     <header>
         <div class="wrapper-left">
             <img src="../assets/main_logo.png" alt="logo principal" width="48px" height="48px">
@@ -9,10 +10,9 @@
             <div id="nav">
                 <router-link to="/">Home</router-link>
                 <router-link to="/about">About</router-link>
-                <router-link to="/profile" v-if="$store.state.user.userId != -1">Profile</router-link>
+                <router-link to="/profile" v-if="$store.state.user.userId != -1">Mon profil</router-link>
                 <router-link to="/login" v-else>Login</router-link>
                 <router-link to="/admin">Admin</router-link>
-                
             </div>
         </div>
         <div class="wrapper-right">
@@ -21,6 +21,7 @@
             </router-link>
         </div>
     </header>
+</div>
 </template>
 
 <script>

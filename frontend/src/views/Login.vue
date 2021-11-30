@@ -51,7 +51,7 @@
 <script>
 import axios from "axios";
 import { mapState } from "vuex";
-import store from "../store/index.js";
+// import store from "../store/index.js";
 import Header from "../components/Header.vue";
 import Footer from "../components/Footer.vue";
 import apiUrl from "../apiUrl.js";
@@ -117,22 +117,12 @@ export default {
       const payload = {email: this.email, password: this.password};
       const res = await axios.post(`${apiUrl}/api/auth/login`, payload).catch(e => {
         console.log("erreur :>", e);
-        // Alert("faux mdp")
         flagError = true;
       }) 
       if (flagError) return;
       this.$store.state.user = res.data;
       localStorage.setItem('user', JSON.stringify(res.data));
       this.$router.push("/profile");
-  
-        // .then(
-        //   function () {
-        //     this.$router.push("/profile");
-        //   },
-        //   function (error) {
-        //     console.log(error);
-        //   }
-        // );
     },
     createAccount: function () {
       console.log(this.firstName, this.email);

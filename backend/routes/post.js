@@ -10,7 +10,7 @@ const likeCtrl = require('../controllers/like.js');
 router.get('/posts', postCtrl.getAllPosts);
 router.post('/', postCtrl.createPost);
 router.get('/:id', auth, postCtrl.getOnePost);
-router.put('/:id', auth, multer, postCtrl.modifyPost);
+router.put('/:id', auth, postCtrl.modifyPost);
 router.delete('/:id', auth, postCtrl.deletePost);
 
 
