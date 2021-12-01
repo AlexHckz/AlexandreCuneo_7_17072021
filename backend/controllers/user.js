@@ -8,30 +8,48 @@ const passwordValidator = require('password-validator');
 var schema = new passwordValidator();
 // Add properties to it
 schema
-.is().min(8)                                    // Minimum length 8
-.is().max(100)                                  // Maximum length 100
-.has().uppercase()                              // Must have uppercase letters
-.has().lowercase()                              // Must have lowercase letters
-.has().digits(2)                                // Must have at least 2 digits
-.has().not().spaces()                           // Should not have spaces
+  .is().min(8)                                    // Minimum length 8
+  .is().max(100)                                  // Maximum length 100
+  .has().uppercase()                              // Must have uppercase letters
+  .has().lowercase()                              // Must have lowercase letters
+  .has().digits(2)                                // Must have at least 2 digits
+  .has().not().spaces()                           // Should not have spaces
 
 exports.signup = (req, res, next) => {
+
   console.log(req.body)
+  const emailTested = req.body.email
+
+  // verification mot de passe
   if (!schema.validate(req.body.password)) {
     res.status(400).json({ message: 'Mot de passe invalide !' });
-  }else{
-    bcrypt.hash(req.body.password, 10)
-    .then(hash => {
-      User.create({
-        name: req.body.name, 
-        firstName: req.body.firstName, 
-        email: req.body.email, 
-        password: hash, 
-        biography: req.body.biography  
-      })
-      .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-      .catch(error => res.status(400).json({ error }));
-    });
+  }
+
+  else {
+    // verification email unique
+    User.findOne({ where: { email: emailTested } }).then((user) => {
+      if (user != null) {
+        console.log('Adresse déjà utilisée !');
+        return res.status(404).json({ message: 'Adresse déjà utilisée !' });
+      }
+      else {
+        bcrypt.hash(req.body.password, 10)
+          .then(hash => {
+            User.create({
+              name: req.body.name,
+              firstName: req.body.firstName,
+              email: req.body.email,
+              password: hash,
+              biography: req.body.biography
+            })
+              .then(() => {
+                console.log('Utilisateur créé !');
+                res.status(201).json({ message: 'Utilisateur créé !' })
+              })
+              .catch(error => res.status(400).json({ error }));
+          });
+      }
+    })
   }
 };
 
@@ -46,26 +64,25 @@ exports.login = (req, res, next) => {
           if (!valid) {
             return res.status(401).json({ error: 'Mot de passe incorrect !' });
           }
-          res.status(200).json({ 
+          res.status(200).json({
             message: 'Utilisateur ok !',
             userId: user.id,
             token: jwt.sign(
-            { userId: user.id },
-            'RANDOM_TOKEN_SECRET',
-            { expiresIn: '24h' })
+              { userId: user.id },
+              'RANDOM_TOKEN_SECRET',
+              { expiresIn: '24h' })
           });
         })
         .catch(error => res.status(500).json({ error }));
     }
   })
-  .catch(error => res.status(400).json({ error }));
-  
+    .catch(error => res.status(400).json({ error }));
 };
 
 exports.getAllUsers = (req, res, next) => {
-    const users = User.findAll()
+  const users = User.findAll()
     .then((users) => {
-        res.status(201).json(users);
+      res.status(201).json(users);
     })
     .catch(error => res.status(400).json({ error }));
 };
@@ -76,14 +93,14 @@ exports.getOneUser = (req, res, next) => {
   req.body.id = jwtDecoded.userId;
   console.log("jwtDecoded", jwtDecoded);
   User.findOne({
-     where: { id: req.body.id } 
+    where: { id: req.body.id }
   }).then(
     (user) => {
       res.status(200).json(user);
     }
   ).catch(
     (error) => {
-     console.log('on est passé la', req.body.id);
+      console.log('on est passé la', req.body.id);
       res.status(404).json({
         error: error
       });
@@ -92,11 +109,21 @@ exports.getOneUser = (req, res, next) => {
 };
 
 exports.deleteUser = (req, res, next) => {
-    console.log('ici');
-    console.log("ma requete body >" + req.body.id);
-    User.destroy({
-      where: {id: req.body.id}
-    })
+  console.log("ma requete body >" + req.body.id);
+  User.destroy({
+    where: { id: req.body.id }
+  })
+    .then(() => {
+      console.log('Utilisateur a été supprimé !');
+    }
+    ).catch(
+      (error) => {
+        console.log('on est passé la', req.body.id);
+        res.status(404).json({
+          error: error
+        });
+      }
+    );
 };
 
 

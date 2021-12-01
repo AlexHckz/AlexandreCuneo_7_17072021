@@ -2,38 +2,24 @@
   <div>
     <Header />
     <main>
-      <section class="left">
-        <h1>Menu</h1>
-      </section>
-
       <section class="right">
         <h1>Ajouter un post</h1>
+
         <form @submit="createPost">
           <div class="form-group">
             <label for="exampleFormControlInput1">Titre du post</label>
-            <input
-              v-model="name"
-              type="text"
-              class="form-control"
-              id="exampleFormControlInput1"
-              placeholder="titre du post"
-            />
+            <input v-model="name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="titre du post"/>
           </div>
           <div class="form-group">
             <label for="exampleFormControlTextarea1">Texte du post</label>
-            <textarea
-              v-model="text"
-              class="form-control"
-              id="exampleFormControlTextarea1"
-              rows="3"
-            ></textarea>
+            <textarea v-model="text" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
           </div>
-
           <button type="submit" class="btn btn-primary">Publiez</button>
         </form>
+
       </section>
     </main>
-    <Footer />
+    <Footer/>
   </div>
 </template>
 
@@ -52,6 +38,7 @@ export default {
     return {
       name: "",
       text: "",
+      id_user: "58",
     };
   },
   methods: {
@@ -60,8 +47,9 @@ export default {
         .post(`http://localhost:3000/api/auth`, {
           name: this.name,
           text: this.text,
+          id_user: this.id_user,
         })
-        .then(response => {
+        .then((response) => {
           console.log(response);
         })
         .catch(function (error) {
@@ -73,47 +61,11 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-}
+@import "./common.css";
+
 main {
   display: flex;
   height: calc(100vh - 160px);
-}
-.left {
-  min-height: 10vh;
-  overflow: hidden;
-  box-sizing: border-box;
-  padding: 10px 20px;
-}
-.left h1,
-.right h1 {
-  margin: 0;
-  padding: 0;
-  text-align: center;
-}
-.left {
-  background-color: #9f9f9f;
-  flex: 0 0 30%;
-}
-.right {
-  min-height: 10vh;
-  overflow: hidden;
-  box-sizing: border-box;
-  padding: 10px 20px;
-}
-.right {
-  background-color: #fff;
-  flex: 1 1 70%;
-  overflow: scroll;
-}
-.user-info-wrapper {
-  margin-top: 1em;
-  display: flex;
-  flex-wrap: wrap;
-}
-.user-info-wrapper p {
-  width: 100%;
 }
 .posts-wrapper {
   margin-top: 1em;

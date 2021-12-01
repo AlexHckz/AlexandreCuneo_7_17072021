@@ -16,6 +16,10 @@ const sequelize = require('../config/database');
       type: DataTypes.STRING,
       allowNull: false
     },
+    id_user: {
+      allowNull: false,
+      type: DataTypes.INTEGER
+    },
   });
 
 module.exports = Post;

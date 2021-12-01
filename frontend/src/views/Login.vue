@@ -2,47 +2,50 @@
   <div>
     <Header />
     <main>
-      <section class="left">
-          <h1>Menu</h1>
-      </section>
       <section class="right">
         <h1 v-if="mode == 'signup'">Inscription</h1>
-          <div class="card">
-                <h1 class="card__title" v-if="mode == 'login'">Connexion</h1>
-                <h1 class="card__title" v-else>Inscription</h1>
-                <p class="card__subtitle" v-if="mode == 'login'">Tu n'as pas encore de compte ? <span class="card__action" @click="switchToCreateAccount()">Créer un compte</span></p>
-                <p class="card__subtitle" v-else>Tu as déjà un compte ? <span class="card__action" @click="switchToLogin()">Se connecter</span></p>
-                <div class="form-row">
-                <input v-model="email" class="form-row__input" type="email" placeholder="Adresse mail"/>
-                </div>
-                <div class="form-row" v-if="mode == 'create'">
-                <input v-model="firstName" class="form-row__input" type="text" placeholder="Prénom"/>
-                <input v-model="name" class="form-row__input" type="text" placeholder="Nom"/>
-                </div>
-                <div class="form-row"  v-if="mode == 'create'">
-                <textarea v-model="biography" class="form-row__input" rows="4" placeholder="Biographie"/>
-                </div>
-                <div class="form-row">
-                <input v-model="password" class="form-row__input" type="password" placeholder="Mot de passe"/>
-                </div>
-                <div class="form-row" v-if="mode == 'login' && status == 'error_login'">
-                  Adresse mail et/ou mot de passe invalide
-                </div>
-                <div class="form-row" v-if="mode == 'create' && status == 'error_create'">
-                  Adresse mail déjà utilisée ou invalide
-                </div>
-                <div class="form-row">
-                  <button @click="login()" class="button" :class="{'button--disabled' : !validatedFields}" v-if="mode == 'login'">
-                      <span v-if="status == 'loading'">Connexion en cours...</span>
-                      <span v-else>Connexion</span>
-                  </button>
-                  <button @click="createAccount()" class="button" :class="{'button--disabled' : !validatedFields}" v-else>
-                      <span v-if="status == 'loading'">Création en cours...</span>
-                      <span v-else>Créer mon compte</span>
-                  </button>
-                </div>
-            </div>
-        </section>
+        <div class="card">
+          <h1 class="card__title" v-if="mode == 'login'">Connexion</h1>
+          <h1 class="card__title" v-else>Inscription</h1>
+          <p class="card__subtitle" v-if="mode == 'login'">
+            Tu n'as pas encore de compte ?
+            <span class="card__action link-primary" @click="switchToCreateAccount()">Créer un compte</span>
+          </p>
+          <p class="card__subtitle" v-else>
+            Tu as déjà un compte ?
+            <span class="card__action link-primary" @click="switchToLogin()">Se connecter</span>
+          </p>
+          <div class="form-row">
+            <input v-model="email" class="form-row__input" type="email" placeholder="Adresse mail"/>
+          </div>
+          <div class="form-row" v-if="mode == 'create'">
+            <input v-model="firstName" class="form-row__input" type="text" placeholder="Prénom"/>
+            <input v-model="name" class="form-row__input" type="text" placeholder="Nom"/>
+          </div>
+          <div class="form-row" v-if="mode == 'create'">
+            <textarea v-model="biography" class="form-row__input" rows="4" placeholder="Biographie" />
+          </div>
+          <div class="form-row">
+            <input v-model="password" class="form-row__input" type="password" placeholder="Mot de passe" />
+          </div>
+          <div class="form-row alert-danger" v-if="mode == 'login' && status == 'error_login'">
+            Adresse mail et/ou mot de passe invalide
+          </div>
+          <div class="form-row alert-danger" v-if="mode == 'create' && status == 'error_create'">
+            Adresse mail déjà utilisée ou invalide
+          </div>
+          <div class="form-row">
+            <button @click="login()" class="button btn-primary" :class="{ 'button--disabled': !validatedFields }" v-if="mode == 'login'">
+              <span v-if="status == 'loading'">Connexion en cours...</span>
+              <span v-else>Connexion</span>
+            </button>
+            <button @click="createAccount()" class="button btn-primary" :class="{ 'button--disabled': !validatedFields }" v-else>
+              <span v-if="status == 'loading'">Création en cours...</span>
+              <span v-else>Créer mon compte</span>
+            </button>
+          </div>
+        </div>
+      </section>
     </main>
     <Footer />
   </div>
@@ -62,24 +65,25 @@ function switchToCreateAccount() {
 function switchToLogin() {
   this.mode = "login";
 }
-    
+
 export default {
-  name: 'Login',
+  name: "Login",
   components: {
     Header,
     Footer,
   },
   data: function () {
     return {
+      status: '',
       mode: "login",
-      email: "alexandre.cuneo@gmail.com",
+      email: "",
       firstName: "",
       name: "",
-      password: "123456789Ac+-",
+      password: "",
       biography: "",
     };
   },
-  mounted: function () {   
+  mounted: function () {
     if (this.$store.state.user.userId != -1) {
       this.$router.push("/profile");
       return;
@@ -97,6 +101,7 @@ export default {
         ) {
           return true;
         } else {
+          this.status = 'error_create'
           return false;
         }
       } else {
@@ -112,20 +117,29 @@ export default {
   methods: {
     switchToCreateAccount,
     switchToLogin,
+
     login: async function () {
       let flagError = false;
-      const payload = {email: this.email, password: this.password};
-      const res = await axios.post(`${apiUrl}/api/auth/login`, payload).catch(e => {
-        console.log("erreur :>", e);
-        flagError = true;
-      }) 
-      if (flagError) return;
+      const payload = { email: this.email, password: this.password };
+      const res = await axios
+        .post(`${apiUrl}/api/auth/login`, payload)
+        .catch((e) => {
+          console.log("erreur :>", e);
+          this.status = 'error_login'
+          flagError = true;
+        });
+        
+      if (flagError) {
+        return;
+      }
       this.$store.state.user = res.data;
-      localStorage.setItem('user', JSON.stringify(res.data));
+      localStorage.setItem("user", JSON.stringify(res.data));
       this.$router.push("/profile");
     },
-    createAccount: function () {
-      console.log(this.firstName, this.email);
+
+    createAccount: async function () {
+
+      const self = this;
       this.$store
         .dispatch("createAccount", {
           email: this.email,
@@ -136,9 +150,10 @@ export default {
         })
         .then(
           function () {
-            this.login();
+            self.login();
           },
           function (error) {
+            this.status = 'error_create'
             console.log(error);
           }
         );
@@ -148,45 +163,12 @@ export default {
 </script>
 
 <style scoped>
-main {
-  display: flex;
-  height: calc(100vh - 160px);
-}
-.left {
-  min-height: 10vh;
-  overflow: hidden;
-  box-sizing: border-box;
-  padding: 10px 20px;
-}
-.left h1 {
-  margin: 0;
-  padding: 0;
-  text-align: center;
-}
-.left {
-  background-color: #9f9f9f;
-  flex: 0 0 30%;
-}
-.right {
-  min-height: 10vh;
-  overflow: hidden;
-  box-sizing: border-box;
-  padding: 10px 20px;
-}
-.right h1 {
-  margin: 0;
-  padding: 0;
-  text-align: center;
-}
-.right {
-  background-color: #ebebeb;
-  flex: 1 1 70%;
-}
+@import "./common.css";
 .form-wrapper {
   margin-top: 1em;
 }
-h1 {
-  margin-bottom: 1em;
+.card{
+  padding: 1em;
 }
 .switchLinks {
   color: blue;
@@ -199,6 +181,7 @@ h1 {
 }
 .form-row {
   display: flex;
+  justify-content: center;
   margin: 16px 0px;
   gap: 16px;
   flex-wrap: wrap;
