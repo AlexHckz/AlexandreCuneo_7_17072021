@@ -22,7 +22,8 @@ const postRoutes = require('./routes/post');
 
 
 app.use('/api/auth/', userRoutes );
-app.use('/api/auth/', postRoutes );
+app.use('/api/post/', postRoutes );
+
 // CHANGER c'est important
 // app.use('/api/post/', postRoutes );
 

@@ -16,9 +16,9 @@ const sequelize = require('../config/database');
       type: DataTypes.STRING,
       allowNull: false
     },
-    id_user: {
-      allowNull: false,
-      type: DataTypes.INTEGER
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
   });
 

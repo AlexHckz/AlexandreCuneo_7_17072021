@@ -3,15 +3,17 @@
     <Header></Header>
     <main>
       <section class="right">
-        <h1>Derniers billets de blog</h1>
-        <div v-for="post in posts" :key="post.id" class="posts-wrapper">
-          <li>{{ post.name }}</li>
-          <li>{{ post.text }}</li>
-          <Post></Post>
-        </div>
-        <a href="/add_post" v-if="$store.state.user.userId != -1">
-          <button class="btn-primary">Ajouter un post</button>
-        </a>
+        <div class="card">
+            <h1>Derniers billets de blog</h1>
+            <div v-for="post in posts" :key="post.id" class="posts-wrapper">
+              <li>{{ post.name }}</li>
+              <li>{{ post.text }}</li>
+              <Post></Post>
+            </div>
+            <a href="/add_post" v-if="$store.state.user.userId != -1">
+              <button class="btn-primary">Ajouter un post</button>
+            </a>
+          </div>
       </section>
     </main>
     <Footer></Footer>
@@ -37,7 +39,7 @@ export default {
     };
   },
   mounted() {
-    fetch("http://localhost:3000/api/auth/posts")
+    fetch("http://localhost:3000/api/post/posts")
       .then((res) => res.json())
       .then((data) => (this.posts = data))
       .catch((err) => console.log(err.message));
@@ -47,6 +49,7 @@ export default {
       user: "userInfos",
     }),
   },
+ 
 };
 </script>
 

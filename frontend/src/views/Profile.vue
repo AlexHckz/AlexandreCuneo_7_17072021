@@ -83,6 +83,7 @@ export default {
         .delete(`${apiUrl}/api/auth/delete`, { data: payload })
         .then((data) => {
           console.log(data);
+          this.$router.push("/");
         })
         .catch((err) => {
           console.log(err);
