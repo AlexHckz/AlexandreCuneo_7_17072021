@@ -35,7 +35,6 @@ import Footer from "../components/Footer.vue";
 
 const axios = require("axios");
 
-
 export default {
   components: {
     Header,
@@ -46,6 +45,8 @@ export default {
       status: "",
       name: "",
       text: "",
+      likes: "",
+      dislikes: "",
       user_id: "",
     };
   },
@@ -58,9 +59,11 @@ export default {
       }
 
       axios
-        .post(`http://localhost:3000/api/auth`, {
+        .post(`http://localhost:3000/api/post`, {
           name: this.name,
           text: this.text,
+          likes: this.likes,
+          dislikes: this.dislikes,
           user_id: this.$store.state.user.userId,
         })
         .then((response) => {
@@ -74,6 +77,8 @@ export default {
         });
     },
   },
+
+  // redirection vers home si le client est pas log
   beforeMount() {
     let user = localStorage.getItem('user');
     if (!user) {
@@ -106,7 +111,6 @@ main {
 .btn-wrapper {
   display: flex;
   justify-content: flex-end;
-  margin-top: 0.5em;
 }
 .btn-wrapper > * {
   margin-right: 0.5em;
@@ -117,4 +121,7 @@ main {
 .form-group {
   margin-bottom: 0.5em;
 }
+/* form {
+  margin: 1em 0;
+} */
 </style>

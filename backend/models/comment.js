@@ -1,7 +1,7 @@
 const { Sequelize, Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-  const Post = sequelize.define("post" , {
+  const Comment = sequelize.define("comment" , {
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -12,23 +12,15 @@ const sequelize = require('../config/database');
       type: DataTypes.STRING,
       allowNull: false
     },
-    name: {
-      type: DataTypes.STRING,
+    user_id: {
+      type: DataTypes.INTEGER,
       allowNull: false
     },
-    likes: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    dislikes: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    user_id: {
+    post_id: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
   });
 
-module.exports = Post;
+module.exports = Comment;
 

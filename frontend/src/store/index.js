@@ -74,6 +74,7 @@ const store = createStore({
       });
     },
     createAccount: ({ commit }, userInfos) => {
+      console.log("Action store Create Account")
       commit('setStatus', 'loading');
       return new Promise((resolve, reject) => {
         commit;

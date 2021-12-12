@@ -5,7 +5,9 @@ exports.createPost = (req, res, next) => {
   Post.create({
     name: req.body.name,
     text: req.body.text,
-    user_id: req.body.user_id
+    likes: req.body.likes,
+    dislikes: req.body.dislikes,
+    user_id: req.body.user_id,
   })
     .then(() => res.status(201).json({ message: 'Objet enregistré !' }))
     .catch(error => res.status(400).json({ error }));
@@ -22,7 +24,6 @@ exports.getAllPosts = (req, res, next) => {
 exports.getOnePost = (req, res, next) => {
   Post.findOne({
     where: { id: req.body.id }
-    // _id: req.params.id
   }).then(
     (post) => {
       res.status(200).json(post);
@@ -37,27 +38,20 @@ exports.getOnePost = (req, res, next) => {
 };
 
 exports.modifyPost = (req, res, next) => {
-  console.log("req.param.id >" + req.params.id)
-  Post.findOne({ _id: req.params.id })
-    .then(
-      Post.updateOne({ _id: req.params.id }, { ...postImage, _id: req.params.id })
-          .then(() => res.status(200).json({ message: 'Objet modifié !' }))
-          .catch(error => res.status(400).json({ error }))
-    )
-  
-    // .then(
-    //   post => {
-    //   const filename = post.imageUrl.split('/images/')[1];
-    //   fs.unlink(`images/${filename}`, () => {
-    //     const postImage = req.file ?
-    //       { ...JSON.parse(req.body.post),
-    //         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-    //       } : { ...req.body };
-    //     Post.updateOne({ _id: req.params.id }, { ...postImage, _id: req.params.id })
-    //       .then(() => res.status(200).json({ message: 'Objet modifié !' }))
-    //       .catch(error => res.status(400).json({ error }));
-    //   });
-    // })
+  if (!req.body.name || !req.body.text || !req.params.id) {
+    res.status(400).send("Bad request");
+    return;
+  }
+  // Récuper le créateur du post req.params.id en DB
+  // comparer le créateur et le token req.body.decodedToken.userId
+  console.log("req.param.id >" + req.params.id)   
+  Post.update(
+    {name: req.body.name, text: req.body.text}, 
+    {where: { id: req.params.id }}
+  ).then(() => res.status(200).json({ message: 'Objet modifié !' }))
+  .catch((error) => {
+    res.status(400).json({ error })
+  });
 };
 
 exports.deletePost = (req, res, next) => {

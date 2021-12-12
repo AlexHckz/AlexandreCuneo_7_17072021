@@ -17,7 +17,7 @@ schema
 
 exports.signup = (req, res, next) => {
 
-  console.log(req.body)
+  console.log("req.body", req.body)
   const emailTested = req.body.email
 
   // verification mot de passe
@@ -42,11 +42,11 @@ exports.signup = (req, res, next) => {
               password: hash,
               biography: req.body.biography
             })
-              .then(() => {
-                console.log('Utilisateur créé !');
-                res.status(201).json({ message: 'Utilisateur créé !' })
-              })
-              .catch(error => res.status(400).json({ error }));
+            .then(() => {
+              console.log('Utilisateur créé !');
+              res.status(201).json({ message: 'Utilisateur créé !' })
+            })
+            .catch(error => res.status(400).json({ error }));
           });
       }
     })
@@ -94,11 +94,23 @@ exports.getOneUser = (req, res, next) => {
   console.log("jwtDecoded", jwtDecoded);
   User.findOne({
     where: { id: req.body.id }
-  }).then(
-    (user) => {
-      res.status(200).json(user);
-    }
-  ).catch(
+  }).then((user) => {res.status(200).json(user);})
+    .catch((error) => {
+      console.log('on est passé la', req.body.id);
+      res.status(404).json({error: error});
+    });
+};
+
+exports.deleteUser = (req, res, next) => {
+  console.log("ma requete body >", req.body);
+  User.destroy({
+    where: { id: req.body.decodedToken.userId }
+  })
+  .then(() => {
+      res.status(200).send(`Le compte ${req.body.decodedToken.userId} a été delete `)
+      return;
+      console.log('Utilisateur a été supprimé !');
+  }).catch(
     (error) => {
       console.log('on est passé la', req.body.id);
       res.status(404).json({
@@ -106,24 +118,6 @@ exports.getOneUser = (req, res, next) => {
       });
     }
   );
-};
-
-exports.deleteUser = (req, res, next) => {
-  console.log("ma requete body >" + req.body.id);
-  User.destroy({
-    where: { id: req.body.id }
-  })
-    .then(() => {
-      console.log('Utilisateur a été supprimé !');
-    }
-    ).catch(
-      (error) => {
-        console.log('on est passé la', req.body.id);
-        res.status(404).json({
-          error: error
-        });
-      }
-    );
 };
 
 

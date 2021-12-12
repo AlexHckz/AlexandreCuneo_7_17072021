@@ -35,11 +35,11 @@
             Adresse mail déjà utilisée ou invalide
           </div>
           <div class="form-row">
-            <button @click="login()" class="button btn-primary" :class="{ 'button--disabled': !validatedFields }" v-if="mode == 'login'">
+            <button @click="login()" class="button btn-primary" :class="{ 'button--disabled': !validatedFields }" :disabled="!validatedFields" v-if="mode == 'login'">
               <span v-if="status == 'loading'">Connexion en cours...</span>
               <span v-else>Connexion</span>
             </button>
-            <button @click="createAccount()" class="button btn-primary" :class="{ 'button--disabled': !validatedFields }" v-else>
+            <button @click="createAccount()" class="button btn-primary" :class="{ 'button--disabled': !validatedFields }" :disabled="!validatedFields" v-else>
               <span v-if="status == 'loading'">Création en cours...</span>
               <span v-else>Créer mon compte</span>
             </button>
@@ -54,7 +54,6 @@
 <script>
 import axios from "axios";
 import { mapState } from "vuex";
-// import store from "../store/index.js";
 import Header from "../components/Header.vue";
 import Footer from "../components/Footer.vue";
 import apiUrl from "../apiUrl.js";
@@ -101,7 +100,7 @@ export default {
         ) {
           return true;
         } else {
-          this.status = 'error_create'
+          // this.status = 'error_create'
           return false;
         }
       } else {
@@ -136,10 +135,7 @@ export default {
       localStorage.setItem("user", JSON.stringify(res.data));
       this.$router.push("/profile");
     },
-
-    createAccount: async function () {
-
-      const self = this;
+    createAccount() {
       this.$store
         .dispatch("createAccount", {
           email: this.email,
@@ -147,16 +143,12 @@ export default {
           firstName: this.firstName,
           password: this.password,
           biography: this.biography,
-        })
-        .then(
-          function () {
-            self.login();
-          },
-          function (error) {
-            this.status = 'error_create'
-            console.log(error);
-          }
-        );
+        }).then( () => {
+          this.login();
+        }).catch((error) => {
+          this.status = 'error_create'
+          console.log("Error CreateAccount", error);
+        });    
     },
   },
 };
@@ -199,5 +191,9 @@ export default {
 }
 .form-row__input::placeholder {
   color: #aaaaaa;
+}
+.button--disabled {
+  cursor: not-allowed;
+  background-color: grey;
 }
 </style>

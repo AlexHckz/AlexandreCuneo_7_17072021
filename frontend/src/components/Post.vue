@@ -1,101 +1,107 @@
 <template>
-    <div>
-            <div class="btn-wrapper">
-                <button class="btn-primary" @click="newEditing"><i class="fas fa-edit"></i>Editer</button>
-                <button class="btn-primary" @click="newCommenting"><i class="fas fa-comment"></i>Commenter</button>
-            </div>
-
-            <div class="form-group" v-if="editing">
-                <form @submit.prevent="editPost">
-                    <div class="form-group">
-                        <label for="exampleFormControlInput1">Modifiez le titre</label>
-                        <input v-model="name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="titre du post"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleFormControlTextarea1">Modifiez le texte</label>
-                        <textarea v-model="text" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                    </div>
-                    <div class="form-row alert-success" v-if="status == 'added'">
-                        Le poste a bien été ajouté
-                    </div>
-                    <div class="form-row alert-danger" v-if="status == 'rejected'">
-                        Veuillez compléter les champs
-                    </div>
-                    <div class="container">
-                        <button type="submit" class="btn btn-primary">Modifiez</button>
-                        <button class="btn-close" @click="close"></button>
-                    </div>
-                </form>  
-            </div>
-            
-            <div class="form-group" v-if="commenting">
-                  <label for="exampleFormControlTextarea1">Votre commentaire:</label>
-                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                  <button class="btn-primary">Commenter</button>
-                  <button class="btn-close" @click="close"></button>
-            </div>
+  <div class="container">
+    <li>{{ post.name }}</li>
+    <li>{{ post.text }}</li>
+    <!-- <li>{{ post.user_id }}</li> -->
+    <div class="reaction-wrapper">
+      <i :class="{fas: true, 'fa-thumbs-up': true, blue: like == 1}" @click="requestLike(1)"></i>{{ post.likes }}
+      <i :class="{fas: true, 'fa-thumbs-down': true, red: like == -1}" @click="requestLike(-1)"></i>{{ post.dislikes }}
     </div>
+    <Comment :postId="post.id" />
+    <Edit :postId="post.id" />
+  </div>
 </template>
 
 <script>
+import Edit from "./Edit.vue";
+import Comment from "./Comment.vue";
+import axios from 'axios';
+import apiUrl from "../apiUrl.js";
 
-import axios from 'axios'
+async function requestIsLike() {
+  try { 
+    let url = `${apiUrl}/api/post/${this.post.id}/islike`;
+    let payload = {
+      token: this.$store.state.user.token,
+    };
+    let result = await axios.post(url, payload)
+    console.log('result.data.like; :>> ', result.data.like);
+    this.like = result.data.like;
+  } catch (error) {
+    console.log("error", Object.keys(error.response.data), error.response.data);
+  }
+}
+async function requestLike(btn) {
+  let newLikeValue = 0;
+  if (btn == 1 && this.like != 1) newLikeValue = 1; // Btn like quand il y a pas de like on ajoute un like
+  if (btn == 1 && this.like == 1) newLikeValue = 0;
+  if (btn == -1 && this.like != -1) newLikeValue = -1;
+  if (btn == -1 && this.like == -1) newLikeValue = 0;
+  try { 
+    let url = `${apiUrl}/api/post/${this.post.id}/like`;
+    let payload = {
+      token: this.$store.state.user.token,
+      like: newLikeValue,
+    };
+    let result = await axios.post(url, payload)
+    console.log("result", result);
+    this.like = newLikeValue;
+  } catch (error) {
+    console.log("error", error);
+  }
+}
 
 export default {
-  name: 'Post',
+  props: {
+    post: Object,
+  },
+  components: {
+    Edit,
+    Comment,
+  },
   data() {
-    return  {
-            id: "",
-            name: "",
-            text: "",
-            editing: false,
-            commenting: false
-        }
-    },
-    methods: {
-        newEditing: function () {
-            this.editing = true;
-            this.commenting = false;
-        },
-        newCommenting: function () {
-            this.commenting = true;
-            this.editing = false;
-        },
-        close: function () {
-            this.commenting = false;
-            this.editing = false;
-        },
-        editPost: function () {
-
-            const postId = "27";
-            console.log("ID du post est >" + postId);
-
-            const formData = new FormData();
-            formData.append("content", this.contentmodifyPost);
-            formData.append("image", this.imagePost);
-
-            axios.put('http://localhost:3000/api/post/' + postId, {
-                    name: this.name,
-                    text: this.text,
-            })
-            .then(() => {
-                window.location.reload()
-            })
-            .catch(error => {
-                const msgerror = error.response.data
-                this.notyf.error(msgerror.error)
-            })
-        }
-    }
-   
-}
+    return {
+      like: 0,
+    };
+  },
+  methods: {
+    requestIsLike, 
+    requestLike,
+  },
+  created() {
+    this.requestIsLike();
+  },
+};
 </script>
 
 <style scoped>
-    .btn-primary {
-        margin-top: 0;   
-    }
-    .btn-close {
-        margin: 1em;   
-    }
+@import "./../views/common.css";
+.container {
+  flex: 1;
+}
+li:first-child {
+  margin: 0.3em 0;
+}
+li {
+  list-style-type: none;
+}
+.reaction-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  bottom: 8px;
+}
+.reaction-wrapper > * {
+  margin: 0 10px;
+}
+.fas {
+  cursor: pointer;
+}
+.blue {
+  color: green;
+}
+.red {
+  color: red;
+}
 </style>

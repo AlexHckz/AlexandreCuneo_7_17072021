@@ -43,9 +43,32 @@ export default {
       user: {},
     };
   },
-  mounted: async function () {
+  computed: {
+    ...mapState({
+      user: "userInfos",
+    }),
+  },
+  methods: {
+    logout: function () {
+      this.$store.commit("logout");
+      this.$router.push("/");
+    },
+    deleteProfile: function () {
+      console.log("Mon user id>" + this.user.id);
+      const payload = { token: this.$store.state.user.token };
+      axios.delete(`${apiUrl}/api/auth/delete`, { data: payload }).then((res) => {
+        console.log("res", res);
+        this.$store.commit("logout");
+        this.$router.push("/");
+      }).catch((err) => {
+        console.log("Une erreur est survenue pendant la suppression", err);
+      });
+    },
+  },
+  created: async function () {
     console.log("this.$store.state.user", this.$store.state.user);
-    if (this.$store.state.user.userId == -1) {
+    if (this.$store.state.user.userId <= 0) {
+      this.$store.commit("logout");
       this.$router.push("/");
       return;
     }
@@ -65,31 +88,7 @@ export default {
     this.user = res.data;
     console.log("this.user", this.user);
   },
-  computed: {
-    ...mapState({
-      user: "userInfos",
-    }),
-  },
-  methods: {
-    logout: function () {
-      this.$store.commit("logout");
-      this.$router.push("/");
-    },
-
-    deleteProfile: async function () {
-      console.log("Mon user id>" + this.user.id);
-      const payload = { id: this.user.id };
-      await axios
-        .delete(`${apiUrl}/api/auth/delete`, { data: payload })
-        .then((data) => {
-          console.log(data);
-          this.$router.push("/");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-  },
+  
 };
 </script>
 
